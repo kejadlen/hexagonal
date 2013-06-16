@@ -3,22 +3,36 @@ require 'test_helper'
 require 'hexagonal/coordinate'
 
 class TestCoordinates < Minitest::Test
-  TYPES = %w[ axial   cube      even_q  even_r  odd_q    odd_r ]
-  COORDS = [[[0,-1], [0,1,-1], [0,-1], [0,-1], [0,-1],  [-1,-1]],
-            [[0,0],  [0,0,0],  [0,0],  [0,0],  [0,0],   [0,0]],
-            [[0,1],  [0,-1,1], [0,1],  [1,1],  [0,1],   [0,1]],
-            [[1,-1], [1,0,-1], [1,0],  [1,-1], [1,-1],  [0,-1]],
-            [[1,0],  [1,-1,0], [1,1],  [1,0],  [1,0],   [1,0]],
-            [[-1,0], [-1,1,0], [-1,0], [-1,0], [-1,-1], [-1,0]],
-            [[-1,1], [-1,0,1], [-1,1], [0,1],  [-1,0],  [-1,1]]]
+  TYPES = %w[     axial   cube      even_q  even_r  odd_q    odd_r ]
+  COORDINATES = [[[0,-1], [0,1,-1], [0,-1], [0,-1], [0,-1],  [-1,-1]],
+                 [[0,0],  [0,0,0],  [0,0],  [0,0],  [0,0],   [0,0]],
+                 [[0,1],  [0,-1,1], [0,1],  [1,1],  [0,1],   [0,1]],
+                 [[1,-1], [1,0,-1], [1,0],  [1,-1], [1,-1],  [0,-1]],
+                 [[1,0],  [1,-1,0], [1,1],  [1,0],  [1,0],   [1,0]],
+                 [[-1,0], [-1,1,0], [-1,0], [-1,0], [-1,-1], [-1,0]],
+                 [[-1,1], [-1,0,1], [-1,1], [0,1],  [-1,0],  [-1,1]]]
+
+  def test_from
+    cube = Hexagonal::Coordinate::Cube[0,0,0]
+    axial = Hexagonal::Coordinate::Axial.from(cube)
+    assert_equal [0,0], axial.coordinates
+  end
+
+  def test_neighbors
+    axial = Hexagonal::Coordinate::Axial[1,2]
+    assert_equal [[2, 2], [2, 1], [1, 1],
+                  [0, 2], [0, 3], [1, 3]],
+                 axial.neighbors.map(&:coordinates)
+  end
 
   def test_to_coordinates
-    COORDS.each do |coords|
+    COORDINATES.each do |coordinates|
       # convert arrays to coordinates
-      meta = TYPES.zip(coords).map do |type,coord|
+      meta = TYPES.zip(coordinates).map do |type,coordinate|
         klass = type.split('_').map(&:capitalize).join
-        coord = Coordinate.const_get(klass, false).new(*coord)
-        [type, coord]
+        klass = Hexagonal::Coordinate.const_get(klass, false)
+        coordinate = klass.new(*coordinate)
+        [type, coordinate]
       end
 
       meta.each do |_, actual|

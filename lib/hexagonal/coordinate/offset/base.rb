@@ -4,8 +4,13 @@ module Hexagonal
   module Coordinate
     module Offset
       class Base < Base
-        def q; coords[0]; end
-        def r; coords[1]; end
+        attr_reader :q, :r
+
+        def initialize(q, r)
+          @q = q
+          @r = r
+          super(q, r)
+        end
       end
     end
   end

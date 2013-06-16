@@ -2,8 +2,13 @@ require_relative 'base'
 
 module Hexagonal::Coordinate
   class Axial < Base
-    def q; coords[0]; end
-    def r; coords[1]; end
+    attr_reader :q, :r
+
+    def initialize(q, r)
+      @q = q
+      @r = r
+      super(q, r)
+    end
 
     def to_cube
       x = q

@@ -1,17 +1,31 @@
 module Hexagonal::Coordinate
   class Base
-    def self.[](*coords)
-      self.new(*coords)
+    def self.[](*coordinates)
+      self.new(*coordinates)
     end
 
-    attr_reader :coords
-
-    def initialize(*coords)
-      @coords = coords
+    def self.from(coordinate)
+      type = self.short_name.split(/(?=[A-Z])/).join('_').downcase
+      coordinates = coordinate.send("to_#{type}").coordinates
+      self.new(*coordinates)
     end
 
-    def ==(coord)
-      self.to_cube == coord.to_cube
+    def self.short_name
+      self.name.split('::').last
+    end
+
+    attr_reader :coordinates
+
+    def initialize(*coordinates)
+      @coordinates = coordinates
+    end
+
+    def ==(coordinate)
+      self.to_cube == coordinate.to_cube
+    end
+
+    def neighbors
+      self.to_cube.neighbors.map {|neighbor| self.class.from(neighbor) }
     end
 
     %w[ axial even_q even_r odd_q odd_r ].each do |coordinate_system|
@@ -24,7 +38,7 @@ module Hexagonal::Coordinate
     end
 
     def to_s
-      "#{self.class.name.split('::').last}#{coords.to_a}"
+      "#{self.class.short_name}#{self.coordinates.to_a}"
     end
   end
 end

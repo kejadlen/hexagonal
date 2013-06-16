@@ -2,12 +2,26 @@ require_relative 'base'
 
 module Hexagonal::Coordinate
   class Cube < Base
-    def x; coords[0]; end
-    def y; coords[1]; end
-    def z; coords[2]; end
+    NEIGHBORS = [[1,-1,0], [1,0,-1], [0,1,-1],
+                 [-1,1,0], [-1,0,1], [0,-1,1]]
 
-    def ==(coord)
-      coords == coord.coords
+    attr_reader :x, :y, :z
+
+    def initialize(x, y, z)
+      @x = x
+      @y = y
+      @z = z
+      super(x, y, z)
+    end
+
+    def ==(coordinate)
+      coordinates == coordinate.coordinates
+    end
+
+    def neighbors
+      NEIGHBORS.map do |i,j,k|
+        self.class.new(x+i, y+j, z+k)
+      end
     end
 
     def to_axial
