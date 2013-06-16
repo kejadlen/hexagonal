@@ -24,6 +24,10 @@ module Hexagonal::Coordinate
       self.to_cube == coordinate.to_cube
     end
 
+    def diagonals
+      self.to_cube.diagonals.map {|diagonal| self.class.from(diagonal) }
+    end
+
     def neighbors
       self.to_cube.neighbors.map {|neighbor| self.class.from(neighbor) }
     end

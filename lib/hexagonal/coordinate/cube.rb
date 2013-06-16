@@ -2,6 +2,8 @@ require_relative 'base'
 
 module Hexagonal::Coordinate
   class Cube < Base
+    DIAGONALS = [[2,-1,-1], [1,1,-2], [-1,2,-1],
+                 [-2,1,1], [-1,-1,2], [1,-2,1]]
     NEIGHBORS = [[1,-1,0], [1,0,-1], [0,1,-1],
                  [-1,1,0], [-1,0,1], [0,-1,1]]
 
@@ -16,6 +18,12 @@ module Hexagonal::Coordinate
 
     def ==(coordinate)
       coordinates == coordinate.coordinates
+    end
+
+    def diagonals
+      DIAGONALS.map do |i,j,k|
+        self.class.new(x+i, y+j, z+k)
+      end
     end
 
     def neighbors

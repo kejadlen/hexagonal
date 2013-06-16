@@ -18,10 +18,15 @@ class TestCoordinates < Minitest::Test
     assert_equal [0,0], axial.coordinates
   end
 
+  def test_diagonals
+    axial = Hexagonal::Coordinate::Axial[1,2]
+    assert_equal [[3,1], [2,0], [0,1], [-1,3], [0,4], [2,3]],
+                 axial.diagonals.map(&:coordinates)
+  end
+
   def test_neighbors
     axial = Hexagonal::Coordinate::Axial[1,2]
-    assert_equal [[2, 2], [2, 1], [1, 1],
-                  [0, 2], [0, 3], [1, 3]],
+    assert_equal [[2,2], [2,1], [1,1], [0,2], [0,3], [1,3]],
                  axial.neighbors.map(&:coordinates)
   end
 
