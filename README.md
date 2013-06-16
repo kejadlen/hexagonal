@@ -1,6 +1,6 @@
 # Hexagonal
 
-TODO: Write a gem description
+Basically a translation of [Hexagonal Grids](http://www.redblobgames.com/grids/hexagons/) to Ruby code.
 
 ## Installation
 
@@ -18,7 +18,20 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+``` ruby
+board = Hexagonal::Board.new # defaults to :axial coordinates
+board = Hexagonal::Board.new(:even_r)
+
+board[2, 1] = 'foo'
+board[Hexagonal::Coordinate::Cube[0, 0]] = 'bar'
+```
+
+### Coordinates
+
+Hexagonal supports three coordinate systems: offset, cube, and axial. Internally, everything is calculated in cube coordinates, but the external interfaces for 
+
+
+
 
 ## Contributing
 
