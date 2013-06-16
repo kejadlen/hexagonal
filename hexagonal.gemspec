@@ -22,5 +22,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'minitest', '~> 5.0.4'
   spec.add_development_dependency 'pry'
-  spec.add_development_dependency 'rake', '~> 10.0.4'
+
+  # pinned because of https://github.com/jimweirich/rake/issues/198
+  spec.add_development_dependency 'rake', '10.1.0.beta.3'
 end

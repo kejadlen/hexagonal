@@ -1,5 +1,2 @@
-require "hexagonal/version"
-
-module Hexagonal
-  # Your code goes here...
-end
+require 'hexagonal/coordinate'
+require 'hexagonal/version'

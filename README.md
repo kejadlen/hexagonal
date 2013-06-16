@@ -18,8 +18,17 @@ Or install it yourself as:
 
 ## Usage
 
+Hexagonal supports the following coordinate systems:
+
+* offset
+  * even-q (flat-topped, even columns offset)
+  * even-r (pointy-topped, even columns offset)
+  * odd-q (flat-topped, odd rows offset)
+  * odd-r (pointy-topped, odd rows offset)
+* axial
+* cube
+
 ``` ruby
-board = Hexagonal::Board.new # defaults to :axial coordinates
 board = Hexagonal::Board.new(:even_r)
 
 board[2, 1] = 'foo'
@@ -27,9 +36,6 @@ board[Hexagonal::Coordinate::Cube[0, 0]] = 'bar'
 ```
 
 ### Coordinates
-
-Hexagonal supports three coordinate systems: offset, cube, and axial. Internally, everything is calculated in cube coordinates, but the external interfaces for 
-
 
 
 
