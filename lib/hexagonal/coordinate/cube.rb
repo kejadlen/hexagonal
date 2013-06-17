@@ -17,7 +17,7 @@ module Hexagonal::Coordinate
     end
 
     def ==(coordinate)
-      coordinates == coordinate.coordinates
+      coordinates == coordinate.to_cube.coordinates
     end
 
     def diagonals
@@ -31,10 +31,42 @@ module Hexagonal::Coordinate
       %w[ x y z ].map {|i| (self.send(i) - coordinate.send(i)).abs }.max
     end
 
+    def line_to(coordinate)
+      coordinate = coordinate.to_cube
+
+      # Adjust one endpoint to break ties and make lines look better.
+      e = 1e-6
+      a = [x+e, y+e, z-2*e]
+
+      d = a.zip(coordinate.coordinates).map {|i,j| i-j }
+      n = [d[0]-d[1], d[1]-d[2], d[2]-d[0]].map(&:abs).max
+
+      (0..n).each.with_object([]) do |i,line|
+        point = self.coordinates.zip(coordinate.coordinates).map do |a,b|
+          a * i/n + b * (1-i/n)
+        end
+        point = self.class.new(*point).round
+        line << point unless line.include?(point)
+      end
+    end
+
     def neighbors
       NEIGHBORS.map do |i,j,k|
         self.class.new(x+i, y+j, z+k)
       end
+    end
+
+    def round
+      r = self.coordinates.map(&:round)
+      err = r.zip(self.coordinates).map {|i,j| (i-j).abs }
+      if err[0] > err[1] and err[0] > err[2]
+        r[0] = -r[1]-r[2]
+      elsif err[1] > err[2]
+        r[1] = -r[0]-r[2]
+      else
+        r[2] = -r[0]-r[1]
+      end
+      self.class.new(*r)
     end
 
     def to_axial

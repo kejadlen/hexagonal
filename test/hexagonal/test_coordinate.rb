@@ -30,10 +30,19 @@ class TestCoordinates < Minitest::Test
     assert_equal 4, from.distance_to(to)
   end
 
+  def test_line_to
+    from = Hexagonal::Coordinate::Axial[1,2]
+    to = Hexagonal::Coordinate::EvenR[-1,3]
+    puts from.line_to(to)
+  end
+
   def test_neighbors
     axial = Hexagonal::Coordinate::Axial[1,2]
     assert_equal [[2,2], [2,1], [1,1], [0,2], [0,3], [1,3]],
                  axial.neighbors.map(&:coordinates)
+  end
+
+  def test_round
   end
 
   def test_to_coordinates

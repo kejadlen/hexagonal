@@ -32,8 +32,17 @@ module Hexagonal::Coordinate
       self.to_cube.distance_to(coordinate.to_cube)
     end
 
+    # NOTE This is for _drawing_ lines, not pathfinding.
+    def line_to(coordinate)
+      self.to_cube.line_to(coordinate).map {|coord| self.class.from(coord) }
+    end
+
     def neighbors
       self.to_cube.neighbors.map {|neighbor| self.class.from(neighbor) }
+    end
+    
+    def round
+      self.class.from(self.to_cube.round)
     end
 
     %w[ axial even_q even_r odd_q odd_r ].each do |coordinate_system|
