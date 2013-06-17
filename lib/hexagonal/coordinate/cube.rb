@@ -26,6 +26,11 @@ module Hexagonal::Coordinate
       end
     end
 
+    def distance_to(coordinate)
+      coordinate = coordinate.to_cube
+      %w[ x y z ].map {|i| (self.send(i) - coordinate.send(i)).abs }.max
+    end
+
     def neighbors
       NEIGHBORS.map do |i,j,k|
         self.class.new(x+i, y+j, z+k)

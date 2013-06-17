@@ -24,6 +24,12 @@ class TestCoordinates < Minitest::Test
                  axial.diagonals.map(&:coordinates)
   end
 
+  def test_distance_to
+    from = Hexagonal::Coordinate::Axial[1,2]
+    to = Hexagonal::Coordinate::EvenR[-1,3]
+    assert_equal 4, from.distance_to(to)
+  end
+
   def test_neighbors
     axial = Hexagonal::Coordinate::Axial[1,2]
     assert_equal [[2,2], [2,1], [1,1], [0,2], [0,3], [1,3]],
