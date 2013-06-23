@@ -60,7 +60,8 @@ module Hexagonal::Coordinate
       end
     end
 
-    def rotate(direction, origin)
+    def rotate(direction, options={})
+      origin = options.fetch(:origin, self.class.new(0, 0, 0))
       translated = self - origin.to_cube
 
       coords = case direction

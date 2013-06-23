@@ -44,12 +44,14 @@ class TestCoordinates < Minitest::Test
 
   def test_rotate
     axial = Hexagonal::Coordinate::Axial[-4,2]
-    origin = Hexagonal::Coordinate::Axial[0,0]
+    origin = Hexagonal::Coordinate::Axial[1,1]
 
     assert_equal Hexagonal::Coordinate::Axial[-2,-2],
-                 axial.rotate(:clockwise, origin)
-    assert_equal Hexagonal::Coordinate::Axial[-2,4],
-                 axial.rotate(:counterclockwise, origin)
+                 axial.rotate(:clockwise)
+    assert_equal Hexagonal::Coordinate::Axial[-1,-4],
+                 axial.rotate(:clockwise, origin: origin)
+    assert_equal Hexagonal::Coordinate::Axial[-4,5],
+                 axial.rotate(:counterclockwise, origin: origin)
   end
 
   def test_round

@@ -63,7 +63,7 @@ even_r.diagonals #=> [EvenR[2, 2], EvenR[1, 1], EvenR[-1, 2], EvenR[-1, 4], Even
 odd_q.distance_to(odd_r) #=> 3
 
 # rotation
-axial.rotate(:clockwise, cube) #=> Axial[4,-4]
+axial.rotate(:clockwise, origin: cube) #=> Axial[4,-4]
 ```
 
 ## Contributing

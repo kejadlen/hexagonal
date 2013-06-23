@@ -41,8 +41,8 @@ module Hexagonal::Coordinate
       self.to_cube.neighbors.map {|neighbor| self.class.from(neighbor) }
     end
 
-    def rotate(direction, origin)
-      self.class.from(self.to_cube.rotate(direction, origin))
+    def rotate(direction, options={})
+      self.class.from(self.to_cube.rotate(direction, options))
     end
 
     def round
@@ -61,5 +61,6 @@ module Hexagonal::Coordinate
     def to_s
       "#{self.class.short_name}#{self.coordinates.to_a}"
     end
+    alias_method :inspect, :to_s
   end
 end
