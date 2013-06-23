@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'pry', '~> 0.9.12'
 
   # github: kejadlen/guard-minitest, branch: feature/guard-minitest
-  spec.add_development_dependency 'guard-minitest'
+  spec.add_development_dependency 'guard-minitest', '1.0.0.rc.3'
 
   # https://github.com/jimweirich/rake/issues/198
   spec.add_development_dependency 'rake', '~> 10.1.0.beta.3'
