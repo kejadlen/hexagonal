@@ -16,6 +16,10 @@ module Hexagonal::Coordinate
       super(x, y, z)
     end
 
+    def -(coordinate)
+      self.class.new(*self.coordinates.zip(coordinate.to_cube.coordinates).map {|a,b| a - b })
+    end
+
     def ==(coordinate)
       coordinates == coordinate.to_cube.coordinates
     end
@@ -54,6 +58,20 @@ module Hexagonal::Coordinate
       NEIGHBORS.map do |i,j,k|
         self.class.new(x+i, y+j, z+k)
       end
+    end
+
+    def rotate(direction, origin)
+      translated = self - origin.to_cube
+
+      coords = case direction
+               when :clockwise
+                 [-translated.z, -translated.x, -translated.y]
+               when :counterclockwise
+                 [-translated.y, -translated.z, -translated.x]
+               else
+                 raise ArgumentError.new('Direction must be :clockwise or :counterclockwise')
+               end
+      self.class.new(*coords)
     end
 
     def round

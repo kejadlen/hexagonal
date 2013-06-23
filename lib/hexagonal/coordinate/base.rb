@@ -21,7 +21,7 @@ module Hexagonal::Coordinate
     end
 
     def ==(coordinate)
-      self.to_cube == coordinate.to_cube
+      self.to_cube == coordinate
     end
 
     def diagonals
@@ -40,7 +40,11 @@ module Hexagonal::Coordinate
     def neighbors
       self.to_cube.neighbors.map {|neighbor| self.class.from(neighbor) }
     end
-    
+
+    def rotate(direction, origin)
+      self.class.from(self.to_cube.rotate(direction, origin))
+    end
+
     def round
       self.class.from(self.to_cube.round)
     end

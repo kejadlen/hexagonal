@@ -33,13 +33,23 @@ class TestCoordinates < Minitest::Test
   def test_line_to
     from = Hexagonal::Coordinate::Axial[1,2]
     to = Hexagonal::Coordinate::EvenR[-1,3]
-    puts from.line_to(to)
+    # puts from.line_to(to)
   end
 
   def test_neighbors
     axial = Hexagonal::Coordinate::Axial[1,2]
     assert_equal [[2,2], [2,1], [1,1], [0,2], [0,3], [1,3]],
                  axial.neighbors.map(&:coordinates)
+  end
+
+  def test_rotate
+    axial = Hexagonal::Coordinate::Axial[-4,2]
+    origin = Hexagonal::Coordinate::Axial[0,0]
+
+    assert_equal Hexagonal::Coordinate::Axial[-2,-2],
+                 axial.rotate(:clockwise, origin)
+    assert_equal Hexagonal::Coordinate::Axial[-2,4],
+                 axial.rotate(:counterclockwise, origin)
   end
 
   def test_round
