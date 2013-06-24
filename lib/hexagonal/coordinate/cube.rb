@@ -7,6 +7,20 @@ module Hexagonal::Coordinate
     NEIGHBORS = [[1,-1,0], [1,0,-1], [0,1,-1],
                  [-1,1,0], [-1,0,1], [0,-1,1]]
 
+    def self.ring(radius, options={})
+      origin = options.fetch(:origin, self.new(0, 0, 0))
+
+      h = self.new(-radius, 0, radius)
+      ring = (0..5).each.with_object([]) do |i,ring|
+        (0...radius).each do |j|
+          ring << h
+          h = h.neighbors[i]
+        end
+      end
+
+      ring.map {|coord| coord + origin }
+    end
+
     attr_reader :x, :y, :z
 
     def initialize(x, y, z)
@@ -18,6 +32,10 @@ module Hexagonal::Coordinate
 
     def -(coordinate)
       self.class.new(*self.coordinates.zip(coordinate.to_cube.coordinates).map {|a,b| a - b })
+    end
+
+    def +(coordinate)
+      self.class.new(*self.coordinates.zip(coordinate.to_cube.coordinates).map {|a,b| a + b })
     end
 
     def ==(coordinate)

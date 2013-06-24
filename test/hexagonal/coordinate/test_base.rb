@@ -42,6 +42,13 @@ class TestCoordinates < Minitest::Test
                  axial.neighbors.map(&:coordinates)
   end
 
+  def test_ring
+    origin = Hexagonal::Coordinate::Axial[-1,1]
+    assert_equal [[-3,3], [-2,3], [-1,3], [0,2], [1,1], [1,0],
+                  [1,-1], [0,-1], [-1,-1], [-2,0], [-3,1], [-3,2]],
+                 Hexagonal::Coordinate::Axial.ring(2, origin: origin).map(&:coordinates)
+  end
+
   def test_rotate
     axial = Hexagonal::Coordinate::Axial[-4,2]
     origin = Hexagonal::Coordinate::Axial[1,1]

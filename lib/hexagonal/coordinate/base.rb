@@ -10,6 +10,10 @@ module Hexagonal::Coordinate
       self.new(*coordinates)
     end
 
+    def self.ring(radius, options={})
+      Cube.ring(radius, options).map {|coordinate| self.from(coordinate) }
+    end
+
     def self.short_name
       self.name.split('::').last
     end
